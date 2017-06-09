@@ -1,0 +1,26 @@
+{
+  "name": "serverless-api-gateway-overrides",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=4.0"
+  },
+  "description": "Plugin To Override Serverless Api Gateway Defaults.",
+  "author": "MemberSuite",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "bin": {},
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "typescript": "^2.3.4"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.62"
+  },
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && ntsc"
+  }
+}

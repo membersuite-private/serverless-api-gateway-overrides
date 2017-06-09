@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "lib": [ "es2015" ],
+        "declaration": false,
+        "sourceMap": true,
+        "inlineSources": false,
+        "outDir": "./dist",
+        "preserveConstEnums": true
+    },
+    "exclude": [
+      "node_modules"
+    ]
+}
