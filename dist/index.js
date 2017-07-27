@@ -34,22 +34,40 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("lodash");
 var ServerlessPlugin = (function () {
     function ServerlessPlugin(serverless) {
         this.serverless = serverless;
         this.hooks = {
+            'after:package:initialize': this.afterInit.bind(this),
             'before:package:finalize': this.beforeDeploy.bind(this)
         };
     }
-    ServerlessPlugin.prototype.beforeDeploy = function () {
+    ServerlessPlugin.prototype.afterInit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var apiGatewayOverrides, template, _i, _a, resource;
-            return __generator(this, function (_b) {
-                this.serverless.cli.log('Applying API Gateway Overrides');
+            var apiGatewayOverrides, template, stage, prop, func;
+            return __generator(this, function (_a) {
                 apiGatewayOverrides = this.serverless.service.custom.apiGatewayOverrides;
                 template = this.serverless.service.provider.compiledCloudFormationTemplate;
+                stage = this.serverless.service.provider.stage;
+                this.serverless.cli.log('Applying Lambda Function Name Overrides');
+                for (prop in this.serverless.service.functions) {
+                    func = this.serverless.service.functions[prop];
+                    if (func) {
+                        func.name = func.name.replace(stage + "-", '');
+                    }
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
+    ServerlessPlugin.prototype.beforeDeploy = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var apiGatewayOverrides, template;
+            return __generator(this, function (_a) {
+                apiGatewayOverrides = this.serverless.service.custom.apiGatewayOverrides;
+                template = this.serverless.service.provider.compiledCloudFormationTemplate;
+                this.serverless.cli.log('Applying API Gateway Overrides');
                 _.extend(template.Resources, {
                     ApiGatewayRestApi: {
                         Type: 'AWS::ApiGateway::RestApi',
@@ -58,15 +76,11 @@ var ServerlessPlugin = (function () {
                         }
                     }
                 });
-                for (_i = 0, _a = template.Resources; _i < _a.length; _i++) {
-                    resource = _a[_i];
-                    this.serverless.cli.log("resource type: " + resource.Type);
-                }
                 return [2 /*return*/];
             });
         });
     };
     return ServerlessPlugin;
 }());
-exports.default = ServerlessPlugin;
+module.exports = ServerlessPlugin;
 //# sourceMappingURL=index.js.map

@@ -11,6 +11,7 @@ export interface ServerlessPackage {
 export interface ServerlessFunction {
   handler: string
   package: ServerlessPackage
+  name: string
 }
 
 export interface ServerlessOptions {
@@ -29,10 +30,6 @@ export interface ServerlessInstance {
   config: {
     servicePath: string
   }
-  provider: {
-    region: string
-    stage: string
-  }
   service: {
     custom: {
       apiGatewayOverrides: ApiGatewayOverrides
@@ -42,6 +39,9 @@ export interface ServerlessInstance {
     provider: {
       coreCloudFormationTemplate: ServerlessTemplate
       compiledCloudFormationTemplate: ServerlessTemplate
+      environment: any
+      region: string
+      stage: string
     }
     getFunction: (name: string) => any
   }

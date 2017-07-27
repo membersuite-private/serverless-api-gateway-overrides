@@ -10,16 +10,30 @@ class ServerlessPlugin {
   constructor(serverless: ServerlessInstance) {
     this.serverless = serverless;
     this.hooks = {
+      'after:package:initialize': this.afterInit.bind(this),
       'before:package:finalize': this.beforeDeploy.bind(this)
     };
   }
 
-  async beforeDeploy(): Promise<void> {
-    this.serverless.cli.log('Applying API Gateway Overrides');
+  async afterInit(): Promise<void> {
+    const apiGatewayOverrides = this.serverless.service.custom.apiGatewayOverrides;
+    const template = this.serverless.service.provider.compiledCloudFormationTemplate;
+    const stage = this.serverless.service.provider.stage;
 
+    this.serverless.cli.log('Applying Lambda Function Name Overrides');
+    for (const prop in this.serverless.service.functions) {
+      const func = this.serverless.service.functions[prop];
+      if (func) {
+        func.name = func.name.replace(`${stage}-`, '');
+      }
+    }
+  }
+
+  async beforeDeploy(): Promise<void> {
     const apiGatewayOverrides = this.serverless.service.custom.apiGatewayOverrides;
     const template = this.serverless.service.provider.compiledCloudFormationTemplate;
 
+    this.serverless.cli.log('Applying API Gateway Overrides');
     _.extend(template.Resources,
       {
         ApiGatewayRestApi: {
@@ -30,11 +44,7 @@ class ServerlessPlugin {
         }
       }
     );
-
-    for (const resource of template.Resources) {
-      this.serverless.cli.log(`resource type: ${resource.Type}`);
-    }
   }
 }
 
-export default ServerlessPlugin;
+export = ServerlessPlugin
