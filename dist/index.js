@@ -2,14 +2,14 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments)).next());
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t;
-    return { next: verb(0), "throw": verb(1), "return": verb(2) };
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -34,6 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var _ = require("lodash");
 var ServerlessPlugin = (function () {
     function ServerlessPlugin(serverless) {
@@ -44,8 +45,8 @@ var ServerlessPlugin = (function () {
     }
     ServerlessPlugin.prototype.beforeDeploy = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var apiGatewayOverrides, template;
-            return __generator(this, function (_a) {
+            var apiGatewayOverrides, template, _i, _a, resource;
+            return __generator(this, function (_b) {
                 this.serverless.cli.log('Applying API Gateway Overrides');
                 apiGatewayOverrides = this.serverless.service.custom.apiGatewayOverrides;
                 template = this.serverless.service.provider.compiledCloudFormationTemplate;
@@ -57,11 +58,15 @@ var ServerlessPlugin = (function () {
                         }
                     }
                 });
+                for (_i = 0, _a = template.Resources; _i < _a.length; _i++) {
+                    resource = _a[_i];
+                    this.serverless.cli.log("resource type: " + resource.Type);
+                }
                 return [2 /*return*/];
             });
         });
     };
     return ServerlessPlugin;
 }());
-module.exports = ServerlessPlugin;
+exports.ServerlessPlugin = ServerlessPlugin;
 //# sourceMappingURL=index.js.map

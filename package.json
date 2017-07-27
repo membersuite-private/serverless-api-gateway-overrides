@@ -21,6 +21,6 @@
     "package.json"
   ],
   "scripts": {
-    "build": "rm -rf dist && ntsc"
+    "build": "rm -rf dist && tsc"
   }
 }
