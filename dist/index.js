@@ -68,5 +68,5 @@ var ServerlessPlugin = (function () {
     };
     return ServerlessPlugin;
 }());
-exports.ServerlessPlugin = ServerlessPlugin;
+exports.default = ServerlessPlugin;
 //# sourceMappingURL=index.js.map

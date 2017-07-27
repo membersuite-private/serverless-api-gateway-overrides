@@ -1,8 +1,7 @@
 import * as _ from 'lodash';
 import { ServerlessInstance } from './types';
 
-export class ServerlessPlugin {
-
+class ServerlessPlugin {
   private originalServicePath: string;
 
   serverless: ServerlessInstance;
@@ -37,3 +36,5 @@ export class ServerlessPlugin {
     }
   }
 }
+
+export default ServerlessPlugin;
