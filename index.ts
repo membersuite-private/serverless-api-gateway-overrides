@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { ServerlessInstance } from './types';
 
-class ServerlessPlugin {
+export class ServerlessPlugin {
 
   private originalServicePath: string;
 
@@ -31,7 +31,9 @@ class ServerlessPlugin {
         }
       }
     );
+
+    for (const resource of template.Resources) {
+      this.serverless.cli.log(`resource type: ${resource.Type}`);
+    }
   }
 }
-
-module.exports = ServerlessPlugin;
